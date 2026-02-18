@@ -1,6 +1,6 @@
 <div align="center">
 
-  <img src="https://via.placeholder.com/150/000000/FFFFFF/?text=YantraOS" alt="YantraOS Logo" width="120" height="120" />
+  <img src="https://avatars.githubusercontent.com/u/261651914" alt="YantraOS Logo" width="120" height="120" />
 
   # YantraOS
   
