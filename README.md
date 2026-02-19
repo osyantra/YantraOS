@@ -19,7 +19,7 @@
 
 ---
 
-## 🌌 What is YantraOS?
+## 🌌 What is YantraOS? 
 
 **YantraOS** (Sanskrit: *Yantra* — Instrument/Engine) is a reimagined Linux distribution designed to shift personal computing from a passive experience to an active one. 
 
