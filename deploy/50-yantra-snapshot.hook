@@ -1,0 +1,21 @@
+# =============================================================================
+# YantraOS — Pacman BTRFS Snapshot Hook
+# Model Route: Claude Opus 4.6
+# =============================================================================
+# Pre-transaction hook that creates a BTRFS snapshot before any pacman
+# operation (Upgrade, Install, Remove). Provides atomic rollback capability.
+# Snapshots older than 7 days are auto-pruned.
+# =============================================================================
+
+[Trigger]
+Operation = Upgrade
+Operation = Install
+Operation = Remove
+Type = Package
+Target = *
+
+[Action]
+Description = YantraOS: Creating BTRFS snapshot before transaction...
+When = PreTransaction
+Exec = /usr/local/bin/yantra-snapshot.sh
+AbortOnFail

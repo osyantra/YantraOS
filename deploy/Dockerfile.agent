@@ -1,0 +1,37 @@
+# =============================================================================
+# YantraOS — Agent Sandbox Container
+# Model Route: GPT-OSS 120B / Gemini 3.1 Pro (Low)
+# =============================================================================
+# Minimal Alpine Linux image for executing AI-generated scripts in complete
+# isolation. Used by sandbox.py with --cap-drop=ALL, read-only rootfs, and
+# ephemeral --rm flag.
+# =============================================================================
+
+FROM alpine:3.19
+
+LABEL maintainer="YantraOS <daemon@yantraos.com>"
+LABEL description="Ephemeral sandbox for AI-generated script execution"
+LABEL version="1.0.0"
+
+# Install minimal runtime dependencies
+RUN apk add --no-cache \
+    python3 \
+    py3-pip \
+    bash \
+    coreutils \
+    curl \
+    jq \
+    && rm -rf /var/cache/apk/*
+
+# Create non-root execution user
+RUN adduser -D -s /bin/sh sandbox_user
+
+# Working directory for mounted scripts
+WORKDIR /workspace
+
+# Switch to non-root user
+USER sandbox_user
+
+# Default entrypoint — execute the mounted script
+ENTRYPOINT ["/bin/bash", "-c"]
+CMD ["echo 'No script provided. Mount a script to /workspace/script.sh'"]

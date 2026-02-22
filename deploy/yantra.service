@@ -1,0 +1,93 @@
+# =============================================================================
+# YantraOS — systemd Service Unit
+# Model Route: Claude Opus 4.6
+# =============================================================================
+# Runs the Kriya Loop daemon as yantra_daemon with Type=notify, WatchdogSec=15,
+# and Restart=always for guaranteed 24/7 uptime. Hardened with systemd
+# security directives.
+# =============================================================================
+
+[Unit]
+Description=YantraOS Kriya Loop Daemon
+Documentation=https://yantraos.com/docs
+After=network-online.target docker.service
+Wants=network-online.target
+Requires=docker.service
+
+[Service]
+# ─── EXECUTION ───────────────────────────────────────────────────────────────
+Type=notify
+ExecStart=/opt/yantra/venv/bin/python3 /opt/yantra/core/engine.py
+WorkingDirectory=/opt/yantra
+
+# ─── IDENTITY (NON-ROOT) ────────────────────────────────────────────────────
+User=yantra_daemon
+Group=yantra
+SupplementaryGroups=docker
+
+# ─── RESTART POLICY ─────────────────────────────────────────────────────────
+Restart=always
+RestartSec=5
+WatchdogSec=15
+
+# ─── ENVIRONMENT ────────────────────────────────────────────────────────────
+Environment=YANTRA_HOME=/opt/yantra
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONDONTWRITEBYTECODE=1
+EnvironmentFile=-/opt/yantra/.env
+
+# ─── LOGGING ─────────────────────────────────────────────────────────────────
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=yantra-daemon
+
+# ─── RESOURCE LIMITS ────────────────────────────────────────────────────────
+LimitNOFILE=65536
+LimitNPROC=4096
+TimeoutStartSec=60
+TimeoutStopSec=30
+
+# ─── SECURITY HARDENING ─────────────────────────────────────────────────────
+# Filesystem isolation
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ReadWritePaths=/opt/yantra /var/log/yantra /var/lib/yantra /run/yantra
+
+# Capability restrictions
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+AmbientCapabilities=
+
+# Namespace isolation
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+
+# System call filtering
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+SystemCallFilter=~@privileged @resources
+
+# Memory protection
+MemoryDenyWriteExecute=no
+LockPersonality=yes
+
+# Network — allow for cloud inference and Docker
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX AF_NETLINK
+
+# Restrict namespace creation
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+
+# Runtime directory for IPC socket
+RuntimeDirectory=yantra
+RuntimeDirectoryMode=0755
+
+[Install]
+WantedBy=multi-user.target
