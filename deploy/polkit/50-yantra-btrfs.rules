@@ -1,0 +1,25 @@
+// YantraOS — PolicyKit privilege escalation rule
+// Target: /etc/polkit-1/rules.d/50-yantra-btrfs.rules
+// Consumed by: polkitd (JavaScript engine)
+//
+// Grants yantra_daemon password-free pkexec for:
+//   /usr/bin/btrfs   — snapshot/rollback operations
+//   /usr/bin/pacman  — package management
+//
+// Security: Validates the EXACT binary path. No wildcards.
+
+polkit.addRule(function(action, subject) {
+    if (action.id === "org.freedesktop.policykit.exec" &&
+        subject.user === "yantra_daemon") {
+
+        var program = action.lookup("program");
+
+        if (program === "/usr/bin/btrfs" ||
+            program === "/usr/bin/pacman") {
+            polkit.log("YantraOS: Authorizing " + subject.user +
+                       " for " + program);
+            return polkit.Result.YES;
+        }
+    }
+    return polkit.Result.NOT_HANDLED;
+});

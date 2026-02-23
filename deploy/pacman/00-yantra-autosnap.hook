@@ -1,0 +1,15 @@
+# YantraOS — Pacman Pre-Transaction Auto-Snapshot Hook
+# Target: /etc/pacman.d/hooks/00-yantra-autosnap.hook
+
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Type = Package
+Target = *
+
+[Action]
+Description = YantraOS: Creating pre-transaction BTRFS snapshot...
+When = PreTransaction
+Exec = /usr/bin/python3 /opt/yantra/core/cli.py --create-snapshot "pacman_pre"
+AbortOnFail
