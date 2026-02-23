@@ -1,0 +1,12 @@
+# YantraOS — Pacman Post-Transaction Daemon Reload Hook
+# Target: /etc/pacman.d/hooks/99-yantra-reload.hook
+
+[Trigger]
+Operation = Upgrade
+Type = Package
+Target = yantra-core
+
+[Action]
+Description = YantraOS: Reloading daemon after package upgrade...
+When = PostTransaction
+Exec = /usr/bin/systemctl try-restart yantra.service
