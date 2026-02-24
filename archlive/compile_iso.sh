@@ -163,8 +163,8 @@ install -Dm644 "${YANTRA_SRC}/deploy/systemd/yantra.service" \
 
 # Pacman hooks
 install -dm755 "${AIROOTFS}/etc/pacman.d/hooks"
-install -Dm644 "${YANTRA_SRC}/deploy/pacman/00-yantra-autosnap.hook" \
-    "${AIROOTFS}/etc/pacman.d/hooks/00-yantra-autosnap.hook"
+install -Dm644 "${YANTRA_SRC}/deploy/pacman/00-yantra-autosnap.hook.inactive" \
+    "${AIROOTFS}/etc/pacman.d/hooks/00-yantra-autosnap.hook.inactive"
 install -Dm644 "${YANTRA_SRC}/deploy/pacman/99-yantra-reload.hook" \
     "${AIROOTFS}/etc/pacman.d/hooks/99-yantra-reload.hook"
 
