@@ -54,6 +54,7 @@ Type=notify
 User=yantra_daemon
 Group=yantra
 ExecStart=/opt/yantra/venv/bin/python3 /opt/yantra/core/daemon.py
+Environment=PYTHONPATH=/opt/yantra
 
 # ── Working directory ────────────────────────────────────────────────────────
 WorkingDirectory=/opt/yantra
