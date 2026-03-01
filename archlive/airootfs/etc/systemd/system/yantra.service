@@ -1,5 +1,4 @@
 # YantraOS Kriya Loop Daemon Systemd Unit
-# Target: /etc/systemd/system/yantra.service
 
 [Unit]
 Description=YantraOS Kriya Loop Daemon — Autonomous System Orchestrator
