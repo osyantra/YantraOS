@@ -1,0 +1,75 @@
+# YantraOS Package Manifest for ArchISO
+# These packages are installed into the live ISO filesystem by mkarchiso.
+# Keep this list minimal. Pip dependencies go into the venv via compile_iso.sh.
+
+# Base system
+base
+linux
+linux-firmware
+mkinitcpio
+mkinitcpio-archiso
+
+# Boot loaders
+syslinux
+grub
+edk2-shell
+efibootmgr
+
+# Microcode
+amd-ucode
+intel-ucode
+
+# Filesystem tools
+btrfs-progs
+dosfstools
+e2fsprogs
+squashfs-tools
+
+# Networking
+networkmanager
+openssh
+iw
+iwd
+dhcpcd
+wpa_supplicant
+
+# Shell and terminal
+zsh
+grml-zsh-config
+nano
+vim
+less
+sudo
+terminus-font
+
+# Python (daemon runtime)
+python
+python-pip
+python-setuptools
+python-wheel
+
+# Docker (sandbox)
+docker
+
+# Wayland kiosk shell
+cage
+xorg-xwayland
+
+# Hardware and diagnostics
+dmidecode
+hdparm
+nvme-cli
+smartmontools
+usbutils
+lsscsi
+
+# Utilities
+rsync
+tmux
+curl
+wget
+git
+htop
+psutils
+lvm2
+parted
