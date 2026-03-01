@@ -1,0 +1,42 @@
+# YantraOS Kriya Loop Daemon Systemd Unit
+# Target: /etc/systemd/system/yantra.service
+
+[Unit]
+Description=YantraOS Kriya Loop Daemon — Autonomous System Orchestrator
+Documentation=https://yantraos.com/docs
+After=network-online.target docker.service
+Wants=network-online.target
+After=local-fs.target
+RequiresMountsFor=/run/yantra /var/lib/yantra
+
+[Service]
+Type=notify
+User=yantra_daemon
+Group=yantra
+ExecStart=/opt/yantra/venv/bin/python3 /opt/yantra/core/daemon.py
+Environment=PYTHONPATH=/opt/yantra
+WorkingDirectory=/opt/yantra
+EnvironmentFile=-/etc/yantra/secrets.env
+WatchdogSec=30s
+WatchdogSignal=SIGABRT
+Restart=on-failure
+RestartSec=5s
+StartLimitIntervalSec=300
+StartLimitBurst=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=yantra
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ReadWritePaths=/run/yantra /var/lib/yantra
+MemoryMax=2G
+CPUQuota=200%
+TasksMax=64
+TimeoutStartSec=90
+TimeoutStopSec=30
+NotifyAccess=main
+
+[Install]
+WantedBy=multi-user.target
