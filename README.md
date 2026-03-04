@@ -86,7 +86,7 @@ You can install the Yantra Core on an existing Arch Linux setup:
 
 ```bash
 # Clone the repository
-git clone [https://github.com/YantraOS/yantra-core.git](https://github.com/YantraOS/yantra-core.git)
+git clone https://github.com/osyantra/YantraOS.git
 
 # Enter directory
 cd yantra-core
